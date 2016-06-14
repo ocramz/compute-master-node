@@ -45,3 +45,24 @@ RUN wget https://releases.hashicorp.com/consul/${CONSUL_VER}/consul_${CONSUL_VER
 RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
 
 RUN consul --version
+
+
+
+
+
+# # # ==== MUNGE
+RUN apt-get install -y --no-install-recommends libmunge-dev libmunge2 munge
+
+# # test MUNGE
+RUN /usr/sbin/munged
+
+
+
+
+# # # ==== SLURM
+RUN apt-get install -y --no-install-recommends slurm-llnl
+
+
+
+# # # clean local package archive
+RUN apt-get clean
