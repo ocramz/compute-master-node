@@ -40,11 +40,12 @@ ENV PATH $BIN_DIR:$PATH
 # # # ==== Consul
 
 
+WORKDIR $TMP
 
 RUN wget https://releases.hashicorp.com/consul/${CONSUL_VER}/consul_${CONSUL_VER}_linux_amd64.zip 
 RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
 # # delete Consul zip to save space :
-RUN rm ${BIN_DIR}/consul_${CONSUL_VER}_linux_amd64.zip
+RUN rm consul_${CONSUL_VER}_linux_amd64.zip
 
 RUN consul --version
 
@@ -64,6 +65,9 @@ RUN /usr/sbin/munged
 # # # ==== SLURM
 RUN apt-get install -y --no-install-recommends slurm-llnl
 
+
+
+WORKDIR $HOME
 
 
 # # # clean local package archive
