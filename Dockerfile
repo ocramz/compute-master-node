@@ -56,8 +56,12 @@ RUN consul --version
 # # # ==== MUNGE
 RUN apt-get install -y --no-install-recommends libmunge-dev libmunge2 munge
 
+# create Munge key
+RUN dd if=/dev/random bs=1 count=1024 >/etc/munge/munge.key
+
+
 # # test MUNGE
-RUN /usr/sbin/munged
+# RUN /usr/sbin/munged
 
 
 
