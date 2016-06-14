@@ -23,6 +23,7 @@ ENV LOCAL_DIR $HOME/.local
 ENV BIN_DIR $HOME/.local/bin
 ENV SRC_DIR $HOME/src
 ENV TMP $HOME/tmp
+ENV CONSULTMP $TMP/consul
 ENV CERTS_DIR $HOME/.certs
 ENV ETC $HOME/etc
 
@@ -34,6 +35,7 @@ RUN mkdir -p $TMP
 RUN mkdir -p $ETC
 
 RUN mkdir -p $CERTS_DIR
+RUN mkdir -p $CONSULTMP
 RUN mkdir -p $ETC/consul.d
 
 # # augment PATH
@@ -52,6 +54,13 @@ RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
 RUN rm consul_${CONSUL_VER}_linux_amd64.zip
 
 RUN consul --version
+
+
+# # test Consul (NB: stop with C-c)
+# RUN consul agent -server -bootstrap -data-dir $CONSULTMP
+# RUN curl localhost:8500/v1/catalog/nodes
+
+
 
 
 
