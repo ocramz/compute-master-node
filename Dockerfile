@@ -13,7 +13,8 @@ RUN apt-get update && \
 RUN apt-get -qq update && \
     apt-get -qq install -y --no-install-recommends make bzip2 unzip wget curl \
                                                    libmunge-dev libmunge2 munge \
-						   slurm-llnl
+						   slurm-llnl && \
+						   rm -rf /var/lib/apt/lists/*
 
 
 # # Set up environment variables
