@@ -41,7 +41,7 @@ ENV PATH $BIN_DIR:$PATH
 
 
 
-RUN wget https://releases.hashicorp.com/consul/0.6.3/consul_0.6.3_linux_amd64.zip 
-RUN unzip consul_0.6.3_linux_amd64.zip -d $BIN_DIR
+RUN travis_retry wget https://releases.hashicorp.com/consul/${CONSUL_VER}/consul_${CONSUL_VER}_linux_amd64.zip 
+RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
 
 RUN consul --version
