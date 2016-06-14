@@ -1,3 +1,4 @@
+# # # compute-master-node
 FROM phusion/baseimage
 
 # # tool versions
@@ -22,7 +23,7 @@ ENV LOCAL_DIR $HOME/.local
 ENV BIN_DIR $HOME/.local/bin
 ENV SRC_DIR $HOME/src
 ENV TMP $HOME/tmp
-ENV CONSULTMP $TMP/consul
+ENV CERTS_DIR $HOME/.certs
 ENV ETC $HOME/etc
 
 # # Create directories
@@ -32,7 +33,7 @@ RUN mkdir -p $SRC_DIR
 RUN mkdir -p $TMP
 RUN mkdir -p $ETC
 
-RUN mkdir -p $CONSULTMP
+RUN mkdir -p $CERTS_DIR
 RUN mkdir -p $ETC/consul.d
 
 # # augment PATH
