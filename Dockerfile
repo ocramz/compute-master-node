@@ -43,6 +43,8 @@ ENV PATH $BIN_DIR:$PATH
 
 RUN wget https://releases.hashicorp.com/consul/${CONSUL_VER}/consul_${CONSUL_VER}_linux_amd64.zip 
 RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
+# # delete Consul zip to save space :
+RUN rm ${BIN_DIR}/consul_${CONSUL_VER}_linux_amd64.zip
 
 RUN consul --version
 
