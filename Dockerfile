@@ -3,15 +3,17 @@ FROM phusion/baseimage
 # # tool versions
 ENV CONSUL_VER 0.6.3
 
-RUN apt-get update
-
 # # TLS-related
-RUN apt-get -qq install -y --no-install-recommends ca-certificates debian-keyring debian-archive-keyring
-RUN apt-key update
-RUN apt-get -qq update
+RUN apt-get update && \
+    apt-get -qq install -y --no-install-recommends ca-certificates debian-keyring debian-archive-keyring && \
+    apt-key update
+
 
 # # Install tools
-RUN apt-get -qq install -y --no-install-recommends make bzip2 unzip wget curl
+RUN apt-get -qq update && \
+    apt-get -qq install -y --no-install-recommends make bzip2 unzip wget curl \
+                                                   libmunge-dev libmunge2 munge \
+						   slurm-llnl
 
 
 # # Set up environment variables
@@ -54,7 +56,6 @@ RUN consul --version
 
 
 # # # ==== MUNGE
-RUN apt-get install -y --no-install-recommends libmunge-dev libmunge2 munge
 
 # #create Munge key (not sure it's a good idea to do this during Docker build)
 # RUN dd if=/dev/random bs=1 count=1024 >/etc/munge/munge.key
@@ -66,7 +67,6 @@ RUN apt-get install -y --no-install-recommends libmunge-dev libmunge2 munge
 
 
 # # # ==== SLURM
-RUN apt-get install -y --no-install-recommends slurm-llnl
 
 
 
