@@ -18,24 +18,28 @@ RUN apt-get -qq update && \
 						   rm -rf /var/lib/apt/lists/*
 
 
-# # Set up environment variables
-ENV LOCAL_DIR $HOME/.local
-ENV BIN_DIR $HOME/.local/bin
+# # # Set up environment variables
+ENV BIN_DIR $HOME/bin
 ENV SRC_DIR $HOME/src
 ENV TMP $HOME/tmp
-ENV CONSULTMP $TMP/consul
+# TLS
 ENV CERTS_DIR $HOME/.certs
+# Consul
+ENV CONSULTMP $TMP/consul
+
 ENV ETC $HOME/etc
 
-# # Create directories
-RUN mkdir -p $LOCAL_DIR
+# # # Create directories
 RUN mkdir -p $BIN_DIR
 RUN mkdir -p $SRC_DIR
 RUN mkdir -p $TMP
 RUN mkdir -p $ETC
-
+# # TLS
 RUN mkdir -p $CERTS_DIR
+# # Consul
 RUN mkdir -p $CONSULTMP
+RUN mkdir -p $HOME/bin
+
 RUN mkdir -p $ETC/consul.d
 
 # # augment PATH
@@ -82,6 +86,12 @@ RUN consul --version
 
 
 WORKDIR $HOME
+
+
+
+ADD bin/run-consul.sh ${BIN_DIR}
+CMD ${BIN_DIR}/run-consul.sh
+
 
 
 # # # clean local package archive
