@@ -89,7 +89,7 @@ WORKDIR $HOME
 
 
 
-ADD bin/run-consul.sh ${BIN_DIR}
+ADD bin/ ${BIN_DIR}
 CMD ${BIN_DIR}/run-consul.sh
 
 
