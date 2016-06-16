@@ -2,7 +2,7 @@
 FROM phusion/baseimage
 
 # # tool versions
-ENV CONSUL_VER 0.6.3
+
 
 # # TLS-related
 RUN apt-get update && \
@@ -24,8 +24,6 @@ ENV SRC_DIR $HOME/src
 ENV TMP $HOME/tmp
 # TLS
 ENV CERTS_DIR $HOME/.certs
-# Consul
-ENV CONSULTMP $TMP/consul
 
 ENV ETC $HOME/etc
 
@@ -36,33 +34,15 @@ RUN mkdir -p $TMP
 RUN mkdir -p $ETC
 # # TLS
 RUN mkdir -p $CERTS_DIR
-# # Consul
-RUN mkdir -p $CONSULTMP
-RUN mkdir -p $HOME/bin
 
-RUN mkdir -p $ETC/consul.d
+RUN mkdir -p $HOME/bin
 
 # # augment PATH
 ENV PATH $BIN_DIR:$PATH
 
 
 
-# # # ==== Consul
 
-
-WORKDIR $TMP
-
-RUN wget https://releases.hashicorp.com/consul/${CONSUL_VER}/consul_${CONSUL_VER}_linux_amd64.zip 
-RUN unzip consul_${CONSUL_VER}_linux_amd64.zip -d $BIN_DIR
-# # delete Consul zip to save space :
-RUN rm consul_${CONSUL_VER}_linux_amd64.zip
-
-RUN consul --version
-
-
-# # test Consul (NB: stop with C-c)
-# RUN consul agent -server -bootstrap -data-dir $CONSULTMP
-# RUN curl localhost:8500/v1/catalog/nodes
 
 
 
@@ -89,8 +69,7 @@ WORKDIR $HOME
 
 
 
-ADD bin/ ${BIN_DIR}
-CMD ${BIN_DIR}/run-consul.sh
+
 
 
 
