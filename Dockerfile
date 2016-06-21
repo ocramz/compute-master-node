@@ -1,6 +1,6 @@
 # # # compute-master-node
 # FROM phusion/baseimage
-ocramz/docker-phusion-supervisor
+FROM ocramz/docker-phusion-supervisor
 
 # # tool versions
 
