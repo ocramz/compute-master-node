@@ -20,7 +20,8 @@ ENV BIN_DIR=${HOME}/bin \
     SRC_DIR=${HOME}/src \
     TMP=${HOME}/tmp \
     SSHDIR=${HOME}/.ssh \
-    ETC=${HOME}/etc
+    ETC=${HOME}/etc \
+    EXAMPLE=${HOME}/example
 
 # # augment PATH
 ENV PATH $BIN_DIR:$PATH
@@ -31,7 +32,8 @@ RUN mkdir -p $BIN_DIR && \
     mkdir -p $TMP && \
     mkdir -p $ETC && \
     mkdir -p $SSHDIR && \
-    mkdir -p $HOME/bin 
+    mkdir -p $HOME/bin && \
+    mkdir -p ${EXAMPLE}
 
 
 
@@ -94,6 +96,13 @@ RUN chmod -R 600 ${SSHDIR}* && \
 
 # # # ==== SLURM
 
+
+
+
+
+
+# # # MPI hello world
+ADD mpi_hello_world.c ${EXAMPLE}
 
 
 
