@@ -19,7 +19,7 @@ ENV HOME /home/${USER}
 ENV BIN_DIR=${HOME}/bin \
     SRC_DIR=${HOME}/src \
     TMP=${HOME}/tmp \
-    SSHDIR=${HOME}/.ssh/ \
+    SSHDIR=${HOME}/.ssh \
     ETC=${HOME}/etc
 
 # # # Create directories
