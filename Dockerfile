@@ -22,6 +22,9 @@ ENV BIN_DIR=${HOME}/bin \
     SSHDIR=${HOME}/.ssh \
     ETC=${HOME}/etc
 
+# # augment PATH
+ENV PATH $BIN_DIR:$PATH
+
 # # # Create directories
 RUN mkdir -p $BIN_DIR && \
     mkdir -p $SRC_DIR && \
@@ -50,12 +53,18 @@ RUN apt-get update && \
 RUN echo 'root:${USER}' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# SSH login fix. Otherwise user is kicked oout after login
+# SSH login fix. Otherwise user is kicked out after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 
 
 # # # COPY SSH KEYS :
+ADD ssh/config ${SSHDIR}/config
+
+# # # template:
+# # ADD ssh/id_rsa.mpi ${SSHDIR}/id_rsa
+# # ADD ssh/id_rsa.mpi.pub ${SSHDIR}/id_rsa.pub
+# # ADD ssh/id_rsa.mpi.pub ${SSHDIR}/authorized_keys
 
 # # # 
 
@@ -70,8 +79,7 @@ RUN chmod -R 600 ${SSHDIR}* && \
 
 
 
-# # augment PATH
-ENV PATH $BIN_DIR:$PATH
+
 
 
 
@@ -108,3 +116,8 @@ WORKDIR $HOME
 
 # # # clean local package archive
 RUN apt-get clean
+
+
+
+EXPOSE 22
+CMD ["/usr/sbin/sshd", "-D"]
