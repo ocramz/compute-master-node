@@ -62,9 +62,9 @@ RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so
 ADD ssh/config ${SSHDIR}/config
 
 # # # template:
-# # ADD ssh/id_rsa.mpi ${SSHDIR}/id_rsa
-# # ADD ssh/id_rsa.mpi.pub ${SSHDIR}/id_rsa.pub
-# # ADD ssh/id_rsa.mpi.pub ${SSHDIR}/authorized_keys
+ADD ssh/id_rsa.mpi ${SSHDIR}/id_rsa
+ADD ssh/id_rsa.mpi.pub ${SSHDIR}/id_rsa.pub
+ADD ssh/id_rsa.mpi.pub ${SSHDIR}/authorized_keys
 
 # # # 
 
@@ -74,18 +74,6 @@ ADD ssh/config ${SSHDIR}/config
 
 RUN chmod -R 600 ${SSHDIR}* && \
     chown -R ${USER}:${USER} ${SSHDIR}
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -102,14 +90,9 @@ RUN chmod -R 600 ${SSHDIR}* && \
 
 
 
+
+
 # # # ==== SLURM
-
-
-
-WORKDIR $HOME
-
-
-
 
 
 
@@ -121,3 +104,5 @@ RUN apt-get clean
 
 EXPOSE 22
 CMD ["/usr/sbin/sshd", "-D"]
+
+WORKDIR $HOME
