@@ -25,8 +25,8 @@ RUN mkdir -p $BIN_DIR && \
     mkdir -p $TMP && \
     mkdir -p $ETC && \
     mkdir -p $SSHDIR && \
-    mkdir -p $HOME/bin && \
-    mkdir /var/run/sshd
+    mkdir -p $HOME/bin 
+
 
 
 # # update TLS-related stuff and install dependencies
@@ -40,11 +40,22 @@ RUN apt-get update && \
 						   slurm-llnl && \
 						   rm -rf /var/lib/apt/lists/*
 
+# ------------------------------------------------------------
+# SSH
+# ------------------------------------------------------------
+
 RUN echo 'root:${USER}' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
 # SSH login fix. Otherwise user is kicked off after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+
+
+# # # COPY SSH KEYS :
+
+# # # 
+
 
 
 
