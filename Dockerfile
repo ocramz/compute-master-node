@@ -2,7 +2,30 @@
 # FROM phusion/baseimage
 FROM ocramz/docker-phusion-supervisor
 
-# # tool versions
+
+ENV USER mpirun
+
+# ------------------------------------------------------------
+# Add an 'mpirun' user
+# ------------------------------------------------------------
+
+RUN adduser --disabled-password --gecos "" ${USER} && \
+    echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+
+# # # environment variables misc.
+ENV BIN_DIR=${HOME}/bin \
+    SRC_DIR=${HOME}/src \
+    TMP=${HOME}/tmp \
+    SSHDIR=${HOME}/.ssh/ \
+    ETC=${HOME}/etc
+
+# # # Create directories
+RUN mkdir -p $BIN_DIR && \
+    mkdir -p $SRC_DIR && \
+    mkdir -p $TMP && \
+    mkdir -p $ETC && \
+    mkdir -p $SSHDIR && \
+    mkdir -p $HOME/bin
 
 
 # # update TLS-related stuff and install dependencies
@@ -11,26 +34,21 @@ RUN apt-get update && \
     apt-key update && \
     apt-get -qq update && \
     apt-get -qq install -y --no-install-recommends make bzip2 unzip wget curl \
+                                                   openssh-server \
                                                    libmunge-dev libmunge2 munge \
 						   slurm-llnl && \
 						   rm -rf /var/lib/apt/lists/*
 
-# # # environment variables
-ENV USER=mpirun \
-    HOME=/home/${USER} \
-    BIN_DIR=${HOME}/bin \
-    SRC_DIR=${HOME}/src \
-    TMP=${HOME}/tmp \
-    CERTS_DIR=${HOME}/.certs \
-    ETC=${HOME}/etc
+RUN mkdir /var/run/sshd
+RUN echo 'root:${USER}' | chpasswd
+RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# # # Create directories
-RUN mkdir -p $BIN_DIR && \
-    mkdir -p $SRC_DIR && \
-    mkdir -p $TMP && \
-    mkdir -p $ETC && \
-    mkdir -p $CERTS_DIR && \
-    mkdir -p $HOME/bin
+# SSH login fix. Otherwise user is kicked off after login
+RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
+
+
+
+
 
 # # augment PATH
 ENV PATH $BIN_DIR:$PATH
