@@ -15,7 +15,8 @@ RUN adduser --disabled-password --gecos "" ${USER} && \
 USER ${USER}
 
 # # # environment variables misc.
-ENV BIN_DIR=${HOME}/bin \
+ENV HOME=/home/${USER} \
+    BIN_DIR=${HOME}/bin \
     SRC_DIR=${HOME}/src \
     TMP=${HOME}/tmp \
     SSHDIR=${HOME}/.ssh/ \
@@ -49,7 +50,7 @@ RUN apt-get update && \
 RUN echo 'root:${USER}' | chpasswd
 RUN sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config
 
-# SSH login fix. Otherwise user is kicked off after login
+# SSH login fix. Otherwise user is kicked oout after login
 RUN sed 's@session\s*required\s*pam_loginuid.so@session optional pam_loginuid.so@g' -i /etc/pam.d/sshd
 
 
