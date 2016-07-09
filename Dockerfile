@@ -14,9 +14,10 @@ RUN adduser --disabled-password --gecos "" ${USER} && \
 
 USER ${USER}
 
+ENV HOME /home/${USER}
+
 # # # environment variables misc.
-ENV HOME=/home/${USER} \
-    BIN_DIR=${HOME}/bin \
+ENV BIN_DIR=${HOME}/bin \
     SRC_DIR=${HOME}/src \
     TMP=${HOME}/tmp \
     SSHDIR=${HOME}/.ssh/ \
