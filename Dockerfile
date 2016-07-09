@@ -5,38 +5,32 @@ FROM ocramz/docker-phusion-supervisor
 # # tool versions
 
 
-# # TLS-related
+# # update TLS-related stuff and install dependencies
 RUN apt-get update && \
     apt-get -qq install -y --no-install-recommends ca-certificates debian-keyring debian-archive-keyring && \
-    apt-key update
-
-
-# # Install tools
-RUN apt-get -qq update && \
+    apt-key update && \
+    apt-get -qq update && \
     apt-get -qq install -y --no-install-recommends make bzip2 unzip wget curl \
                                                    libmunge-dev libmunge2 munge \
 						   slurm-llnl && \
 						   rm -rf /var/lib/apt/lists/*
 
-
-# # # Set up environment variables
-ENV BIN_DIR $HOME/bin
-ENV SRC_DIR $HOME/src
-ENV TMP $HOME/tmp
-# TLS
-ENV CERTS_DIR $HOME/.certs
-
-ENV ETC $HOME/etc
+# # # environment variables
+ENV USER=mpirun \
+    HOME=/home/${USER} \
+    BIN_DIR=${HOME}/bin \
+    SRC_DIR=${HOME}/src \
+    TMP=${HOME}/tmp \
+    CERTS_DIR=${HOME}/.certs \
+    ETC=${HOME}/etc
 
 # # # Create directories
-RUN mkdir -p $BIN_DIR
-RUN mkdir -p $SRC_DIR
-RUN mkdir -p $TMP
-RUN mkdir -p $ETC
-# # TLS
-RUN mkdir -p $CERTS_DIR
-
-RUN mkdir -p $HOME/bin
+RUN mkdir -p $BIN_DIR && \
+    mkdir -p $SRC_DIR && \
+    mkdir -p $TMP && \
+    mkdir -p $ETC && \
+    mkdir -p $CERTS_DIR && \
+    mkdir -p $HOME/bin
 
 # # augment PATH
 ENV PATH $BIN_DIR:$PATH
