@@ -12,6 +12,8 @@ ENV USER mpirun
 RUN adduser --disabled-password --gecos "" ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
+USER ${USER}
+
 # # # environment variables misc.
 ENV BIN_DIR=${HOME}/bin \
     SRC_DIR=${HOME}/src \
