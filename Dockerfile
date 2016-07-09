@@ -12,7 +12,6 @@ ENV USER mpirun
 RUN adduser --disabled-password --gecos "" ${USER} && \
     echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER ${USER}
 
 ENV HOME /home/${USER}
 
