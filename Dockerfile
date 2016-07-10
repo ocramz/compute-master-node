@@ -102,7 +102,7 @@ RUN chmod -R 600 ${SSHDIR}* && \
 
 
 # # # MPI hello world
-ADD mpi_hello_world.c ${EXAMPLE}
+# COPY mpi_hello_world.c ${EXAMPLE}
 
 
 
